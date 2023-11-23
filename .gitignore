@@ -37,3 +37,8 @@ lerna-debug.log*
 # node lock
 yarn.lock
 package-lock.json
+
+# configs
+.env.development
+.env.production
+dbConfig.ts
