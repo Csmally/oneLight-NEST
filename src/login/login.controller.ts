@@ -5,7 +5,7 @@ import { LoginService } from './login.service';
 export class LoginController {
   constructor(private readonly loginService: LoginService) {}
 
-  @Post()
+  @Post('signIn')
   login(@Body('mobile') mobile: string) {
     return this.loginService.login(mobile);
   }

@@ -16,10 +16,10 @@ export class ErrorFilter implements ExceptionFilter {
     const status = exception.getStatus();
     response.status(status).json({
       success: false,
-      time: moment().format(),
+      code: status,
       data: exception.message,
-      status,
       path: request.url,
+      time: moment().format(),
     });
   }
 }
