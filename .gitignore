@@ -39,6 +39,5 @@ yarn.lock
 package-lock.json
 
 # configs
-.env.development
-.env.production
-dbConfig.ts
+env.development.json
+env.production.json
