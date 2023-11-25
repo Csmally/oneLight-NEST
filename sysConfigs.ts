@@ -18,4 +18,6 @@ const dbConfig: TypeOrmModuleOptions = {
   autoLoadEntities: configs.dbAutoLoadEntities, // 自动查找并加载指定目录中的所有实体类
 };
 
-export default dbConfig;
+const secretKey = configs.secretKey;
+
+export { dbConfig, secretKey };

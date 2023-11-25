@@ -5,10 +5,12 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private readonly user: Repository<User>,
+    @InjectRepository(User)
+    private readonly user: Repository<User>,
   ) {}
 
   create(mobile: string) {
+    console.log('9898环境', process.env.NODE_ENV);
     const data = new User();
     data.mobile = mobile;
     return this.user.save(data);
@@ -18,8 +20,9 @@ export class UserService {
     return `This action returns all user`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(params) {
+    const user = await this.user.findOne({ where: params });
+    return user;
   }
 
   update(id: number) {
