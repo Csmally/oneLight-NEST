@@ -10,7 +10,6 @@ export class UserService {
   ) {}
 
   create(mobile: string) {
-    console.log('9898环境', process.env.NODE_ENV);
     const data = new User();
     data.mobile = mobile;
     return this.user.save(data);
