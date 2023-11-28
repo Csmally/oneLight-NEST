@@ -10,7 +10,7 @@ interface Data<T> {
   data: T;
 }
 @Injectable()
-export class ResponseFormat<T> implements NestInterceptor {
+export class GlobalResponseInterceptor<T> implements NestInterceptor {
   intercept(
     context: ExecutionContext,
     next: CallHandler<any>,

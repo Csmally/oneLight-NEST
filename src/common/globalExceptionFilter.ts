@@ -16,7 +16,7 @@ const errorMessage = {
 };
 
 @Catch()
-export class ErrorFilter implements ExceptionFilter {
+export class GlobalExceptionFilter implements ExceptionFilter {
   catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const request = ctx.getRequest<Request>();
