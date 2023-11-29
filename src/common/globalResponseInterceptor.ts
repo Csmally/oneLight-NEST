@@ -1,20 +1,15 @@
 import {
-  CallHandler,
-  ExecutionContext,
   Injectable,
   NestInterceptor,
+  ExecutionContext,
+  CallHandler,
 } from '@nestjs/common';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-interface Data<T> {
-  data: T;
-}
 @Injectable()
-export class GlobalResponseInterceptor<T> implements NestInterceptor {
-  intercept(
-    context: ExecutionContext,
-    next: CallHandler<any>,
-  ): Observable<Data<T>> | Promise<Observable<any>> {
+export class GlobalResponseInterceptor implements NestInterceptor {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
       map((data) => {
         return {

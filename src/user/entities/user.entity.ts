@@ -52,7 +52,7 @@ export class User {
   idCard: string;
 
   @Column({ nullable: true })
-  Campus: number;
+  campus: number;
 
   @Column()
   uid: string;
