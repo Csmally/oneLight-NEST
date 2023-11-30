@@ -1,4 +1,7 @@
-// 1. 创建守卫类
+/**
+ * 登陆检验守卫 
+*/
+
 import {
   Injectable,
   CanActivate,
@@ -6,13 +9,14 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { JwtService } from './jwtService';
+import { JwtService } from '../services/jwtService';
 
 @Injectable()
 export class AuthorityGuard implements CanActivate {
   constructor(private readonly jwtService: JwtService) {}
   canActivate(context: ExecutionContext): boolean {
     const request: Request = context.switchToHttp().getRequest();
+    console.log('9898header', request.headers);
     if (request.path === '/login/signIn' || request.path === '/login/msgCode') {
       return true;
     }

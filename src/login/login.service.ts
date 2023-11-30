@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import * as CryptoJS from 'crypto-js';
 import { secretKey } from 'sysConfigs';
-import { JwtService } from 'src/common/jwtService';
+import { JwtService } from 'src/common/services/jwtService';
 
 @Injectable()
 export class LoginService {
@@ -16,32 +16,23 @@ export class LoginService {
       CryptoJS.enc.Utf8,
     );
     if (mobile === unSecretMobile) {
+      let isCodeRight: boolean;
       if (process.env.NODE_ENV === 'development') {
-        if (msgCode === '1234') {
-          const user = await this.addOrFindUser(mobile);
-          const Authorization = this.jwtService.generateToken({
-            uid: user.uid,
-            mobile,
-          });
-          const res = { ...user, Authorization, isRight: true };
-          return res;
-        } else {
-          return { message: '验证码错误', isRight: false };
-        }
+        isCodeRight = msgCode === '0116';
       } else {
         // 生产环境需要先校验手机号码和验证码是否匹配（后续接入腾讯短信服务返回isCodeRight，）
-        const isCodeRight = true;
-        if (isCodeRight) {
-          const user = await this.addOrFindUser(mobile);
-          const Authorization = this.jwtService.generateToken({
-            uid: user.uid,
-            mobile,
-          });
-          const res = { ...user, Authorization };
-          return res;
-        } else {
-          return { message: '验证码错误' };
-        }
+        isCodeRight = false;
+      }
+      if (isCodeRight) {
+        const user = await this.addOrFindUser(mobile);
+        const Authorization = this.jwtService.generateToken({
+          uid: user.uid,
+          mobile,
+        });
+        const res = { ...user, Authorization, isCodeRight };
+        return res;
+      } else {
+        return { message: '验证码错误', isCodeRight };
       }
     } else {
       throw new UnauthorizedException();

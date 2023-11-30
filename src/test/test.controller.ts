@@ -6,10 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { TestService } from './test.service';
 import { CreateTestDto } from './dto/create-test.dto';
 import { UpdateTestDto } from './dto/update-test.dto';
+import { AuthorityGuard } from 'src/common/guards/authorityGuard';
 
 @Controller('test')
 export class TestController {
@@ -21,6 +23,7 @@ export class TestController {
   }
 
   @Get('a')
+  @UseGuards(AuthorityGuard)
   findAlla() {
     return this.testService.findAll();
   }
