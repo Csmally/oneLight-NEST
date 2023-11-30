@@ -1,13 +1,8 @@
 /**
- * 登陆检验守卫 
-*/
+ * 登陆检验守卫
+ */
 
-import {
-  Injectable,
-  CanActivate,
-  ExecutionContext,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { Request } from 'express';
 import { JwtService } from '../services/jwtService';
 
@@ -16,7 +11,6 @@ export class AuthorityGuard implements CanActivate {
   constructor(private readonly jwtService: JwtService) {}
   canActivate(context: ExecutionContext): boolean {
     const request: Request = context.switchToHttp().getRequest();
-    console.log('9898header', request.headers);
     if (request.path === '/login/signIn' || request.path === '/login/msgCode') {
       return true;
     }
