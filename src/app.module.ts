@@ -9,7 +9,7 @@ import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { GlobalExceptionInterceptor } from 'src/common/interceptors/globalExceptionInterceptor';
 import { GlobalResponseInterceptor } from 'src/common/interceptors/globalResponseInterceptor';
 import { TestModule } from './test/test.module';
-import { TestGuard } from './common/guards/testGuard';
+import { AgentGuard } from './common/guards/agentGuard';
 
 @Module({
   imports: [
@@ -31,10 +31,10 @@ import { TestGuard } from './common/guards/testGuard';
       provide: APP_INTERCEPTOR,
       useClass: GlobalResponseInterceptor,
     },
-    //测试
+    //访问来源处理
     {
       provide: APP_GUARD,
-      useClass: TestGuard
+      useClass: AgentGuard
     },
   ],
 })

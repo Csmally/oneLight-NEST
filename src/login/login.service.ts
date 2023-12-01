@@ -11,31 +11,24 @@ export class LoginService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async login(mobile: string, msgCode: string, secret: string) {
-    const unSecretMobile = CryptoJS.AES.decrypt(secret, secretKey).toString(
-      CryptoJS.enc.Utf8,
-    );
-    if (mobile === unSecretMobile) {
-      let isCodeRight: boolean;
-      if (process.env.NODE_ENV === 'development') {
-        isCodeRight = msgCode === '0116';
-      } else {
-        // 生产环境需要先校验手机号码和验证码是否匹配（后续接入腾讯短信服务返回isCodeRight，）
-        isCodeRight = false;
-      }
-      if (isCodeRight) {
-        const user = await this.addOrFindUser(mobile);
-        const Authorization = this.jwtService.generateToken({
-          id: user.id,
-          uid: user.uid,
-        });
-        const res = { ...user, Authorization, isCodeRight };
-        return res;
-      } else {
-        return { message: '验证码错误', isCodeRight };
-      }
+  async login(mobile: string, msgCode: string) {
+    let isCodeRight: boolean;
+    if (process.env.NODE_ENV === 'development') {
+      isCodeRight = msgCode === '0116';
     } else {
-      throw new UnauthorizedException();
+      // 生产环境需要先校验手机号码和验证码是否匹配（后续接入腾讯短信服务返回isCodeRight，）
+      isCodeRight = false;
+    }
+    if (isCodeRight) {
+      const user = await this.addOrFindUser(mobile);
+      const Authorization = this.jwtService.generateToken({
+        id: user.id,
+        uid: user.uid,
+      });
+      const res = { ...user, Authorization, isCodeRight };
+      return res;
+    } else {
+      return { message: '验证码错误', isCodeRight };
     }
   }
 
@@ -46,15 +39,11 @@ export class LoginService {
     return newUser;
   }
 
-  getMsgCode(mobile: string, secret: string) {
-    const unSecretMobile = CryptoJS.AES.decrypt(secret, secretKey).toString(
-      CryptoJS.enc.Utf8,
-    );
-    if (mobile === unSecretMobile) {
-      // 发起短信发送服务（后续接入腾讯短信服务）
-      return { message: '发送成功' };
-    } else {
-      throw new UnauthorizedException();
-    }
+  getMsgCode(mobile: string) {
+    if (process.env.NODE_ENV === 'development') return { message: '发送成功' }; 
+    // 发起短信发送服务（后续接入腾讯短信服务）
+    const res = true;
+    if (res) return { message: '发送成功' };
+    return { message: '发送失败' }
   }
 }

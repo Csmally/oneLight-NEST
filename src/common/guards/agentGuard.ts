@@ -6,12 +6,13 @@ import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from
 import { Request } from 'express';
 
 @Injectable()
-export class TestGuard implements CanActivate {
+export class AgentGuard implements CanActivate {
   constructor() {}
   canActivate(context: ExecutionContext): boolean {
+    if (process.env.NODE_ENV === 'development') return true;
     const request: Request = context.switchToHttp().getRequest();
-    const userAgent = request.headers['user-agent'];
-    const isFromSafe = userAgent.includes('oneLight');
+    const agentType = request.headers['ol-agent-type'];
+    const isFromSafe = agentType.includes('oneLight');
     if (isFromSafe) return true;
     throw new UnauthorizedException();
   }
