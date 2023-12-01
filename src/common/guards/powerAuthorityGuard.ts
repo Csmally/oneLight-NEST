@@ -6,7 +6,7 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { Request } from 'express';
 import * as CryptoJS from 'crypto-js';
-import { secretKey } from 'sysConfigs';
+import { httpsSecretKey } from 'sysConfigs';
 
 @Injectable()
 export class PowerAuthorityGuard implements CanActivate {
@@ -16,7 +16,7 @@ export class PowerAuthorityGuard implements CanActivate {
     const request: Request = context.switchToHttp().getRequest();
     const token: string = request.headers['power-authorization'] as string;
     if (!token) throw new UnauthorizedException();
-    const decryptToken = CryptoJS.AES.decrypt(token, secretKey).toString(CryptoJS.enc.Utf8);
+    const decryptToken = CryptoJS.AES.decrypt(token, httpsSecretKey).toString(CryptoJS.enc.Utf8);
     const stamp = Number(decryptToken);
     const stampDiff = Date.now() - stamp;
     if (stampDiff >= 0 && stampDiff < 25000) return true;
