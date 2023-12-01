@@ -6,7 +6,7 @@ import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from
 import { Request } from 'express';
 
 @Injectable()
-export class UserAgentGuard implements CanActivate {
+export class TestGuard implements CanActivate {
   constructor() {}
   canActivate(context: ExecutionContext): boolean {
     const request: Request = context.switchToHttp().getRequest();

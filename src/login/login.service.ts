@@ -26,8 +26,8 @@ export class LoginService {
       if (isCodeRight) {
         const user = await this.addOrFindUser(mobile);
         const Authorization = this.jwtService.generateToken({
+          id: user.id,
           uid: user.uid,
-          mobile,
         });
         const res = { ...user, Authorization, isCodeRight };
         return res;
