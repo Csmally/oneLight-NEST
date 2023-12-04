@@ -1,9 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as fs from 'fs';
 
-const configs = JSON.parse(
-  fs.readFileSync(`env.${process.env.NODE_ENV}.json`, 'utf-8'),
-);
+const configs = JSON.parse(fs.readFileSync(`env.${process.env.NODE_ENV}.json`, 'utf-8'));
 
 const dbConfig: TypeOrmModuleOptions = {
   type: configs.dbType, // 数据库类型

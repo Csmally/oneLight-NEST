@@ -12,12 +12,7 @@ import { TestModule } from './test/test.module';
 import { AgentGuard } from './common/guards/agentGuard';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot(dbConfig),
-    LoginModule,
-    UserModule,
-    TestModule,
-  ],
+  imports: [TypeOrmModule.forRoot(dbConfig), LoginModule, UserModule, TestModule],
   controllers: [AppController],
   providers: [
     AppService,
@@ -34,7 +29,7 @@ import { AgentGuard } from './common/guards/agentGuard';
     //访问来源处理
     {
       provide: APP_GUARD,
-      useClass: AgentGuard
+      useClass: AgentGuard,
     },
   ],
 })

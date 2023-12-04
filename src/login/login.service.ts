@@ -38,10 +38,10 @@ export class LoginService {
   }
 
   getMsgCode(mobile: string) {
-    if (process.env.NODE_ENV === 'development') return { message: '发送成功' }; 
+    if (process.env.NODE_ENV === 'development') return { message: '发送成功' };
     // 发起短信发送服务（后续接入腾讯短信服务）
     const res = true;
     if (res) return { message: '发送成功' };
-    return { message: '发送失败' }
+    return { message: '发送失败' };
   }
 }
